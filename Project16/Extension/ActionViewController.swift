@@ -10,19 +10,28 @@ import UIKit
 import MobileCoreServices
 
 class ActionViewController: UIViewController {
-
-    @IBOutlet weak var imageView: UIImageView!
+    var pageTitle = ""
+    var pageURL = ""
+    
+    @IBOutlet weak var script: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(done))
+        
         if let inputItem = extensionContext!.inputItems.first as? NSExtensionItem {
             if let itemProvider = inputItem.attachments?.first as? NSItemProvider {
                 itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) { [unowned self] (dict, error) in
                     
                     let itemDictionary = dict as! NSDictionary
                     let javaScriptValues = itemDictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
-                    print(javaScriptValues)
+                    self.pageTitle = javaScriptValues["title"] as! String
+                    self.pageURL = javaScriptValues["URL"] as! String
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.title = self.pageTitle
+                    }
                 }
             }
         }
