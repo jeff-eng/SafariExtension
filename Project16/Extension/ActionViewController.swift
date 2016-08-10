@@ -43,9 +43,14 @@ class ActionViewController: UIViewController {
     }
 
     @IBAction func done() {
+        let item = NSExtensionItem()
+        let webDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: ["customJavaScript": script.text]]
+        let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
+        item.attachments = [customJavaScript]
+        
         // Return any edited content to the host app.
         // This template doesn't do anything, so we just echo the passed in items.
-        self.extensionContext!.completeRequestReturningItems(self.extensionContext!.inputItems, completionHandler: nil)
+        extensionContext!.completeRequestReturningItems([item], completionHandler: nil)
     }
 
 }
