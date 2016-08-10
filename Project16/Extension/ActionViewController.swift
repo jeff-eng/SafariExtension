@@ -48,8 +48,6 @@ class ActionViewController: UIViewController {
         let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
         item.attachments = [customJavaScript]
         
-        // Return any edited content to the host app.
-        // This template doesn't do anything, so we just echo the passed in items.
         extensionContext!.completeRequestReturningItems([item], completionHandler: nil)
     }
 
