@@ -17,6 +17,10 @@ class ActionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIKeyboardWillChangeFrameNotification, object: nil)
     
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(done))
         
@@ -35,6 +39,7 @@ class ActionViewController: UIViewController {
                 }
             }
         }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,6 +54,24 @@ class ActionViewController: UIViewController {
         item.attachments = [customJavaScript]
         
         extensionContext!.completeRequestReturningItems([item], completionHandler: nil)
+    }
+    
+    func adjustForKeyboard(notification: NSNotification) {
+        let userInfo = notification.userInfo!
+        
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
+        
+        if notification.name == UIKeyboardWillHideNotification {
+            script.contentInset = UIEdgeInsetsZero
+        } else {
+            script.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        }
+        
+        script.scrollIndicatorInsets = script.contentInset
+        
+        let selectedRange = script.selectedRange
+        script.scrollRangeToVisible(selectedRange)
     }
 
 }

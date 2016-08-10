@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wf9-Ko-L83">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="464"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -28,8 +28,8 @@
                         <constraints>
                             <constraint firstItem="wf9-Ko-L83" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leading" id="2Gh-aH-Cap"/>
                             <constraint firstAttribute="trailing" secondItem="wf9-Ko-L83" secondAttribute="trailing" id="CFN-Ev-baf"/>
-                            <constraint firstItem="wf9-Ko-L83" firstAttribute="top" secondItem="zMn-AG-sqS" secondAttribute="top" id="I8q-Ix-5h3"/>
                             <constraint firstItem="wf9-Ko-L83" firstAttribute="bottom" secondItem="n38-gi-rB5" secondAttribute="top" id="cJv-9c-w35"/>
+                            <constraint firstItem="wf9-Ko-L83" firstAttribute="top" secondItem="qkL-Od-lgU" secondAttribute="bottom" id="qFI-Cb-wsl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ewd-jJ-Q3c"/>
