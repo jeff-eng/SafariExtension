@@ -22,17 +22,24 @@ class ActionViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIKeyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIKeyboardWillChangeFrameNotification, object: nil)
     
+        // Add in a Done bar button item that calls the 'done' method
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(done))
         
+        // Access extension context - input items is an array of data the parent app is sending to our extension to use. Then access the first item b/c we only care about the first item, then conditionally typecast as NSExtensionItem
         if let inputItem = extensionContext!.inputItems.first as? NSExtensionItem {
+            // Pull out the first attachment of the input item array as an NSItemProvider
             if let itemProvider = inputItem.attachments?.first as? NSItemProvider {
                 itemProvider.loadItemForTypeIdentifier(kUTTypePropertyList as String, options: nil) { [unowned self] (dict, error) in
                     
+                    // dictionary of data is returned and we store in itemDictionary
                     let itemDictionary = dict as! NSDictionary
+                    // data from JavaScript is stored as a value with key NSExtensionJavaScriptPreprocessingResultsKey
                     let javaScriptValues = itemDictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
+                    // Update the page title on nav bar as title transmitted by Safari
                     self.pageTitle = javaScriptValues["title"] as! String
                     self.pageURL = javaScriptValues["URL"] as! String
                     
+                    // Set view controller's title property using GCD on the main queue since it is a UI related behavior
                     dispatch_async(dispatch_get_main_queue()) {
                         self.title = self.pageTitle
                     }
